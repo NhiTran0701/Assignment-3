@@ -1,0 +1,64 @@
+<h1 id = "heading">
+  HIPSTER TWITTER
+</h1>
+<input type="text" id = "tweet">
+</input>
+<button id ="tweetButton">
+  Tweet
+</button>
+<p id="count">
+</p>
+<ul id = "list">
+</ul>
+
+
+let masterTweetList = [];
+document.getElementById("tweetButton").addEventListener('click',function(){
+  let value = document.getElementById("tweet").value;
+  masterTweetList.push({text:value,isLiked:false});
+  console.log(masterTweetList);
+  document.getElementById("tweet").value= "";
+  updateTweetList();
+  document.getElementById("count").innerHTML = "140 characters remaining";
+    
+}
+)
+
+document.getElementById("tweet").addEventListener('keydown',function(){
+  textCounter();
+})
+
+function updateTweetList(){
+  let html = "";
+  for(let i = 0; i < masterTweetList.length; i++){
+    html += `<li>${masterTweetList[i].text} <a href='#' onclick='retweet(${i})'>Retweet</a> <a href='#' onclick='like(${i})'>Like</a></li>\n`;}
+
+  document.getElementById("list").innerHTML = html;
+ 
+}
+function textCounter() {
+    let field = document.getElementById("tweet");
+    let maxlimit = 140;
+    let cntfield;
+    if (field.value.length > maxlimit){ 
+    field.value = field.value.substring(0, maxlimit);
+    }
+    else{
+    cntfield = maxlimit - field.value.length;
+    }
+  document.getElementById("count").innerHTML = `${cntfield} characters remaining`;
+}
+function retweet(i){
+  masterTweetList.push(masterTweetList[i]);
+  updateTweetList();
+}
+function like(){
+  for(let i = 0; i < masterTweetList.length; i++){
+    masterTweetList[i].isLiked = !(masterTweetList[i].isLiked);
+    console.log(masterTweetList[i]);
+  }
+}
+
+
+
+
